@@ -42,7 +42,6 @@
  		hw_mac_addr=$(mmc_get_mac_ascii bdinfo "fac_mac ")
  		[ "$PHYNBR" = "0" ] && echo "$hw_mac_addr" > /sys${DEVPATH}/macaddress
 
-
 --- a/package/boot/uboot-tools/uboot-envtools/files/mediatek_filogic
 +++ b/package/boot/uboot-tools/uboot-envtools/files/mediatek_filogic
 @@ -60,7 +60,8 @@ glinet,gl-mt6000|\

@@ -6,7 +6,7 @@ Subject: [PATCH] qualcommax: ipq50xx: pz-l8: enable wifi
 Signed-off-by: Ziyang Huang <hzyitc@outlook.com>
 ---
  package/firmware/ipq-wifi/Makefile                |  2 ++
- target/linux/qualcommax/dts/ipq5018-pz-l8.dts     | 15 +++++++--------
+ target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq5018-pz-l8.dts     | 15 +++++++--------
  target/linux/qualcommax/image/ipq50xx.mk          |  1 +
  .../etc/hotplug.d/firmware/11-ath11k-caldata      |  4 ++++
  4 files changed, 14 insertions(+), 8 deletions(-)
@@ -15,26 +15,26 @@ diff --git a/package/firmware/ipq-wifi/Makefile b/package/firmware/ipq-wifi/Make
 index 1cdaaf93cb5e11..5a448215272b1e 100644
 --- a/package/firmware/ipq-wifi/Makefile
 +++ b/package/firmware/ipq-wifi/Makefile
-@@ -36,6 +36,7 @@ ALLWIFIBOARDS:= \
+@@ -35,6 +35,7 @@ ALLWIFIBOARDS:= \
+ 	asus_rt-ax89x \
  	buffalo_wxr-5950ax12 \
  	cambiumnetworks_xe34 \
- 	cmcc_mr3000d-ci \
 +	cmcc_pz-l8 \
  	cmcc_rm2-6 \
  	compex_wpq873 \
  	dynalink_dl-wrx36 \
-@@ -228,6 +229,7 @@ $(eval $(call generate-ipq-wifi-package,asus_rt-ax89x,Asus RT-AX89X))
+@@ -218,6 +219,7 @@ $(eval $(call generate-ipq-wifi-package,arcadyan_aw1000,Arcadyan AW1000))
+ $(eval $(call generate-ipq-wifi-package,asus_rt-ax89x,Asus RT-AX89X))
  $(eval $(call generate-ipq-wifi-package,buffalo_wxr-5950ax12,Buffalo WXR-5950AX12))
  $(eval $(call generate-ipq-wifi-package,cambiumnetworks_xe34,Cambium Networks XE3-4))
- $(eval $(call generate-ipq-wifi-package,cmcc_mr3000d-ci,CMCC MR3000D-CI))
 +$(eval $(call generate-ipq-wifi-package,cmcc_pz-l8,CMCC PZ-L8))
  $(eval $(call generate-ipq-wifi-package,cmcc_rm2-6,CMCC RM2-6))
  $(eval $(call generate-ipq-wifi-package,compex_wpq873,Compex WPQ-873))
  $(eval $(call generate-ipq-wifi-package,dynalink_dl-wrx36,Dynalink DL-WRX36))
 diff --git a/target/linux/qualcommax/dts/ipq5018-pz-l8.dts b/target/linux/qualcommax/dts/ipq5018-pz-l8.dts
 index 5b4e3b5ba7ba8a..c58c3e2a2ca915 100644
---- a/target/linux/qualcommax/dts/ipq5018-pz-l8.dts
-+++ b/target/linux/qualcommax/dts/ipq5018-pz-l8.dts
+--- a/target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq5018-pz-l8.dts
++++ b/target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq5018-pz-l8.dts
 @@ -350,13 +350,12 @@
  	};
  };

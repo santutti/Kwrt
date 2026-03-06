@@ -1,6 +1,6 @@
 --- a/target/linux/mediatek/image/filogic.mk
 +++ b/target/linux/mediatek/image/filogic.mk
-@@ -1672,3 +1672,29 @@ define Device/zyxel_nwa50ax-pro
+@@ -1672,3 +1672,42 @@ define Device/zyxel_nwa50ax-pro
    IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
  endef
  TARGET_DEVICES += zyxel_nwa50ax-pro
@@ -30,36 +30,52 @@
 +  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 +endef
 +TARGET_DEVICES += sl_3000-emmc
++
++define Device/bt_r320
++  DEVICE_VENDOR := Globitel
++  DEVICE_MODEL := BT-R320
++  DEVICE_DTS := mt7981b-bt-r320
++  DEVICE_DTS_DIR := ../dts
++  DEVICE_PACKAGES := kmod-usb3 kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware e2fsprogs f2fsck mkf2fs
++  KERNEL := kernel-bin | lzma | fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb
++  KERNEL_INITRAMFS := kernel-bin | lzma | \
++	fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb with-initrd | pad-to 64k
++  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
++endef
++TARGET_DEVICES += bt_r320
 
 --- a/target/linux/mediatek/filogic/base-files/lib/upgrade/platform.sh
 +++ b/target/linux/mediatek/filogic/base-files/lib/upgrade/platform.sh
-@@ -129,6 +129,8 @@ platform_do_upgrade() {
+@@ -129,6 +129,9 @@ platform_do_upgrade() {
  	glinet,gl-xe3000|\
  	huasifei,wh3000|\
  	huasifei,wh3000-pro|\
 +	philips,hy3000|\
 +	sl,3000*|\
++	bt,r320|\
  	smartrg,sdg-8612|\
  	smartrg,sdg-8614|\
  	smartrg,sdg-8622|\
-@@ -350,6 +351,8 @@ platform_copy_config() {
+@@ -350,6 +351,9 @@ platform_copy_config() {
  	huasifei,wh3000-pro|\
  	jdcloud,re-cp-03|\
  	nradio,c8-668gl|\
 +	philips,hy3000|\
 +	sl,3000*|\
++	bt,r320|\
  	smartrg,sdg-8612|\
  	smartrg,sdg-8614|\
  	smartrg,sdg-8622|\
 
 --- a/target/linux/mediatek/filogic/base-files/etc/board.d/02_network
 +++ b/target/linux/mediatek/filogic/base-files/etc/board.d/02_network
-@@ -41,6 +41,8 @@ mediatek_setup_interfaces()
+@@ -41,6 +41,9 @@ mediatek_setup_interfaces()
  	jcg,q30-pro|\
  	keenetic,kn-3811|\
  	qihoo,360t7|\
 +	philips,hy3000|\
 +	sl,3000*|\
++	bt,r320|\
  	routerich,ax3000|\
  	routerich,ax3000-ubootmod)
  		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" wan
@@ -80,3 +96,14 @@
  	xiaomi,mi-router-ax3000t|\
  	xiaomi,mi-router-ax3000t-ubootmod|\
  	xiaomi,mi-router-wr30u|\
+
+--- a/package/boot/uboot-tools/uboot-envtools/files/mediatek_filogic
++++ b/package/boot/uboot-tools/uboot-envtools/files/mediatek_filogic
+@@ -85,6 +85,7 @@ bananapi,bpi-r4|\
+ bananapi,bpi-r4-lite|\
+ bananapi,bpi-r4-poe|\
+ cmcc,rax3000m|\
++bt,r320|\
+ jdcloud,re-cp-03)
+ 	. /lib/upgrade/fit.sh
+ 	export_fitblk_bootdev
