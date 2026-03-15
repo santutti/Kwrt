@@ -11,12 +11,12 @@ jobs:
       - name: Setup Environment
         run: sudo apt update && sudo apt install -y build-essential gawk wget python3 file
 
-      - name: Use Image Builder
-        run: |
+      #- name: Use Image Builder
+        #run: |
           # 1. Download official Image Builder for 23.05.5
-          wget https://downloads.openwrt.org/releases/23.05.5/targets/ipq40xx/generic/openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64.tar.xz
-          tar -J -xvf *.tar.xz
-          cd openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64
+          #wget https://downloads.openwrt.org/releases/23.05.5/targets/ipq40xx/generic/openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64.tar.xz
+          #tar -J -xvf *.tar.xz
+          #cd openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64
           
           # 2. Inject your custom repos so the builder can find 4IceG packages
           #echo "src/gz eko1 https://dl.eko.one.pl/openwrt-23.05/packages/arm_cortex-a7_neon-vfpv4/eko1" >> repositories.conf
