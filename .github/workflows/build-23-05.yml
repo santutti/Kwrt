@@ -13,7 +13,7 @@
           # 3. Build the image with BOTH the engine and the UI
           # Note: luci-app-tailscale is pulled from the gunanovo repo we added above
           make image PROFILE="zte_mf286d" \
-          PACKAGES="tailscale kmod-tun ca-bundle luci-proto-qmi uqmi usb-modeswitch luci luci-app-tailscale luci-app-ksmbd" \
+          PACKAGES="tailscale kmod-tun ca-bundle luci-proto-qmi uqmi usb-modeswitch luci luci-app-tailscale sysinfo luci-app-ksmbd" \
           IGNORE_SIGNATURE=1
 
           
