@@ -1,0 +1,37 @@
+name: Build MF286D Stable 23.05
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Environment
+        run: sudo apt update && sudo apt install -y build-essential gawk wget python3 file
+
+      - name: Use Image Builder
+        run: |
+          # 1. Download official Image Builder for MF286D (ipq40xx)
+          wget https://downloads.openwrt.org/releases/23.05.5/targets/ipq40xx/generic/openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64.tar.xz
+          tar -J -xvf *.tar.xz
+          cd openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64
+          
+          # 2. Inject your custom repos
+          echo "src/gz eko1 https://dl.eko.one.pl/openwrt-23.05/packages/arm_cortex-a7_neon-vfpv4/eko1" >> repositories.conf
+          echo "src/gz IceG_repo https://github.com/4IceG/Modem-extras/raw/main/myrepo" >> repositories.conf
+          echo "src/gz openwrt-tailscale https://gunanovo.github.io/openwrt-tailscale/arm_cortex-a7_neon-vfpv4" >> repositories.conf
+          
+          # 3. Add Keys for security
+          wget https://github.com/4IceG/Modem-extras/raw/main/myrepo/IceG-repo.pub -P keys/
+          wget https://gunanovo.github.io/openwrt-tailscale/key-build.pub -O keys/tailscale-build.pub
+          
+          # 4. Build the image with your specific packages
+          make image PROFILE="zte_mf286d" PACKAGES="tailscale kmod-tun ca-bundle luci-proto-qmi luci-app-3ginfo-lite uqmi usb-modeswitch"
+
+      - name: Upload Finished Firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: MF286D-Stable-23.05
+          path: openwrt-imagebuilder-*/bin/targets/ipq40xx/generic/*-sysupgrade.bin
