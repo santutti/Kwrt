@@ -19,16 +19,28 @@ jobs:
           cd openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64
           
           # 2. Inject your custom repos so the builder can find 4IceG packages
-          echo "src/gz eko1 https://dl.eko.one.pl/openwrt-23.05/packages/arm_cortex-a7_neon-vfpv4/eko1" >> repositories.conf
-          echo "src/gz IceG_repo https://github.com/4IceG/Modem-extras/raw/main/myrepo" >> repositories.conf
-          echo "src/gz openwrt-tailscale https://gunanovo.github.io/openwrt-tailscale/arm_cortex-a7_neon-vfpv4" >> repositories.conf
+          #echo "src/gz eko1 https://dl.eko.one.pl/openwrt-23.05/packages/arm_cortex-a7_neon-vfpv4/eko1" >> repositories.conf
+          #echo "src/gz IceG_repo https://github.com/4IceG/Modem-extras/raw/main/myrepo" >> repositories.conf
+          #echo "src/gz openwrt-tailscale https://gunanovo.github.io/openwrt-tailscale/arm_cortex-a7_neon-vfpv4" >> repositories.conf
           
           # 3. Inject repos into FINAL router config so you can use 'opkg' later for small apps
-          mkdir -p files/etc/opkg
-          echo "src/gz eko1 https://dl.eko.one.pl/openwrt-23.05/packages/arm_cortex-a7_neon-vfpv4/eko1" >> files/etc/opkg/customfeeds.conf
-          echo "src/gz IceG_repo https://github.com/4IceG/Modem-extras/raw/main/myrepo" >> files/etc/opkg/customfeeds.conf
-          echo "src/gz openwrt-tailscale https://gunanovo.github.io/openwrt-tailscale/arm_cortex-a7_neon-vfpv4" >> files/etc/opkg/customfeeds.conf
-
+          #mkdir -p files/etc/opkg
+          #echo "src/gz eko1 https://dl.eko.one.pl/openwrt-23.05/packages/arm_cortex-a7_neon-vfpv4/eko1" >> files/etc/opkg/customfeeds.conf
+          #echo "src/gz IceG_repo https://github.com/4IceG/Modem-extras/raw/main/myrepo" >> files/etc/opkg/customfeeds.conf
+          # echo "src/gz openwrt-tailscale https://gunanovo.github.io/openwrt-tailscale/arm_cortex-a7_neon-vfpv4" >> files/etc/opkg/customfeeds.conf
+      - name: Use Image Builder
+        run: |
+          wget https://downloads.openwrt.org/releases/23.05.5/targets/ipq40xx/generic/openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64.tar.xz
+          tar -J -xvf *.tar.xz
+          cd openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64
+                
+          # Use 'sed' to insert the custom repos at the very top of the list
+          sed -i '1i src/gz eko1 https://dl.eko.one.pl/openwrt-23.05/packages/arm_cortex-a7_neon-vfpv4/eko1' repositories.conf
+          sed -i '1i src/gz IceG_repo https://github.com/4IceG/Modem-extras/raw/main/myrepo' repositories.conf
+          sed -i '1i src/gz openwrt_tailscale https://gunanovo.github.io/openwrt-tailscale/arm_cortex-a7_neon-vfpv4' repositories.conf
+                
+          # Clean build command
+          make image PROFILE="zte_mf286d" PACKAGES="luci tailscale luci-app-tailscale kmod-tun ca-bundle luci-proto-qmi uqmi usb-modeswitch luci-app-3ginfo-lite luci-app-modemband luci-app-sms-tool-js block-mount kmod-usb-storage kmod-fs-exfat kmod-fs-vfat luci-app-ksmbd sysinfo" IGNORE_SIGNATURE=1
           # 4. Build the image
           # Added 'luci' for the web interface
           # Added 'luci-app-3ginfo-lite' and 'luci-app-modemband' from 4IceG repo
