@@ -1,5 +1,4 @@
-#### 一分钟在线编译定制专属固件: [openwrt.ai](https://openwrt.ai)
-
+DONT USE 
 ### openwrt 软路由固件
 
 ## Acknowledgments
