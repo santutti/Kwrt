@@ -10,11 +10,11 @@
           echo "src/gz IceG_repo https://github.com/4IceG/Modem-extras/raw/main/myrepo" >> repositories.conf
           echo "src/gz openwrt-tailscale https://gunanovo.github.io/openwrt-tailscale/arm_cortex-a7_neon-vfpv4" >> repositories.conf
           
-          # 3. Build the image with BOTH the engine and the UI
-          # Note: luci-app-tailscale is pulled from the gunanovo repo we added above
+          # 3. Build the image
+          # Note: Added kmod-usb-storage and filesystem drivers so your USB stick actually works!
           make image PROFILE="zte_mf286d" \
-          PACKAGES="tailscale kmod-tun ca-bundle luci-proto-qmi uqmi usb-modeswitch luci luci-app-tailscale sysinfo luci-app-ksmbd" \
+          PACKAGES="luci tailscale luci-app-tailscale kmod-tun ca-bundle \
+          luci-proto-qmi uqmi usb-modeswitch \
+          luci-app-3ginfo-lite luci-app-modemband luci-app-sms-tool-js \
+          block-mount kmod-usb-storage kmod-fs-exfat kmod-fs-vfat luci-app-ksmbd sysinfo" \
           IGNORE_SIGNATURE=1
-
-          
-      
