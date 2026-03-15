@@ -1,13 +1,11 @@
-- name: Use Image Builder
+      - name: Use Image Builder
         run: |
           wget https://downloads.openwrt.org/releases/23.05.5/targets/ipq40xx/generic/openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64.tar.xz
-          tar -J -xvf *.tar.xz
+          tar -Jxf openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64.tar.xz
           cd openwrt-imagebuilder-23.05.5-ipq40xx-generic.Linux-x86_64
-          
           echo "src/gz eko1 https://dl.eko.one.pl/openwrt-23.05/packages/arm_cortex-a7_neon-vfpv4/eko1" >> repositories.conf
           echo "src/gz IceG_repo https://github.com/4IceG/Modem-extras/raw/main/myrepo" >> repositories.conf
           echo "src/gz openwrt-tailscale https://gunanovo.github.io/openwrt-tailscale/arm_cortex-a7_neon-vfpv4" >> repositories.conf
-          
           make image PROFILE="zte_mf286d" \
-          PACKAGES="luci tailscale luci-app-tailscale kmod-tun ca-bundle luci-proto-qmi uqmi usb-modeswitch luci-app-3ginfo-lite luci-app-modemband luci-app-sms-tool-js block-mount kmod-usb-storage kmod-fs-exfat kmod-fs-vfat luci-app-ksmbd sysinfo" \
-          IGNORE_SIGNATURE=1
+            PACKAGES="luci tailscale luci-app-tailscale kmod-tun ca-bundle luci-proto-qmi uqmi usb-modeswitch luci-app-3ginfo-lite luci-app-modemband luci-app-sms-tool-js block-mount kmod-usb-storage kmod-fs-exfat kmod-fs-vfat luci-app-ksmbd sysinfo" \
+            IGNORE_SIGNATURE=1
